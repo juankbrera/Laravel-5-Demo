@@ -13,12 +13,28 @@ use Illuminate\Http\Request;
 |
 */
 
+// Auth Routes
 $router->group(['prefix' => 'auth'], function ($router) {
-    $router->post('login', 'AuthController@login')->name('login');
-    $router->post('signup', 'AuthController@signup')->name('signup');
+    $router->group(['middleware' => 'guest'], function ($router) {
+        $router->post('login', 'AuthController@login')->name('login');
+        $router->post('signup', 'AuthController@signup')->name('signup');
+    });
 
     $router->group(['middleware' => 'auth:api'], function ($router) {
         $router->get('logout', 'AuthController@logout')->name('logout');
         $router->get('user', 'AuthController@user')->name('user');
+    });
+});
+
+// Product routes
+$router->group(['prefix' => 'products'], function ($router) {
+    $router->get('/', 'ProductsController@index')->name('products');
+
+    $router->group(['middleware' => 'guest'], function ($router) {
+        //
+    });
+
+    $router->group(['middleware' => 'auth:api'], function ($router) {
+        $router->post('store', 'ProductsController@store')->name('product.store');
     });
 });
