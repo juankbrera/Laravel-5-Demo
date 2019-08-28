@@ -45,6 +45,12 @@ class AuthController extends Controller
         $this->user = $user;
     }
 
+    /**
+     * Signup a new user.
+     *
+     * @param  App\Http\Requests\SignupRequest $request
+     * @return string
+     */
     public function signup(SignupRequest $request)
     {
         $validated_data = $request->validated();
@@ -56,6 +62,12 @@ class AuthController extends Controller
             'message' => 'Successfully created user!'], 201);
     }
 
+    /**
+     * Login users by credentials.
+     *
+     * @param  App\Http\Requests\LoginRequest $request
+     * @return string
+     */
     public function login(LoginRequest $request)
     {
         $validated_data = $request->validated();
@@ -84,6 +96,12 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Logout the authenticated user.
+     *
+     * @param  Illuminate\Http\Request $request
+     * @return string
+     */
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
@@ -91,6 +109,13 @@ class AuthController extends Controller
             'Successfully logged out']);
     }
 
+
+    /**
+     * Return the authenticated user data.
+     *
+     * @param  Illuminate\Http\Request $request
+     * @return string
+     */
     public function user(Request $request)
     {
         return response()->json($request->user());
