@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
@@ -35,7 +36,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        $products = $this->product->get();
+        return ProductResource::collection($products);
     }
 
     /**
@@ -85,6 +87,10 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = $this->product->findOrFail($id);
+        $product->delete();
+
+        return response()->json([
+            'message' => 'Successfully deleted product!'], 201);
     }
 }

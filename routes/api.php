@@ -36,5 +36,6 @@ $router->group(['prefix' => 'products'], function ($router) {
 
     $router->group(['middleware' => 'auth:api'], function ($router) {
         $router->post('store', 'ProductsController@store')->name('product.store');
+        $router->delete('destroy/{id}', 'ProductsController@destroy')->name('product.destroy');
     });
 });
