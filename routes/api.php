@@ -14,11 +14,11 @@ use Illuminate\Http\Request;
 */
 
 $router->group(['prefix' => 'auth'], function ($router) {
-    $router->post('login', 'AuthController@login');
-    $router->post('signup', 'AuthController@signup');
+    $router->post('login', 'AuthController@login')->name('login');
+    $router->post('signup', 'AuthController@signup')->name('signup');
 
     $router->group(['middleware' => 'auth:api'], function ($router) {
-        $router->get('logout', 'AuthController@logout');
-        $router->get('user', 'AuthController@user');
+        $router->get('logout', 'AuthController@logout')->name('logout');
+        $router->get('user', 'AuthController@user')->name('user');
     });
 });
