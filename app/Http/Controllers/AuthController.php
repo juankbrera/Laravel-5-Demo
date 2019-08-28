@@ -41,7 +41,6 @@ class AuthController extends Controller
     ) {
         $this->auth  = $auth;
         $this->carbon = $carbon;
-        $this->middleware('guest');
         $this->user = $user;
     }
 
