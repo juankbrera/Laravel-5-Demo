@@ -62,7 +62,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Login users by credentials.
+     * Login - Creates and return a new token.
      *
      * @param  App\Http\Requests\LoginRequest $request
      * @return string
@@ -80,10 +80,6 @@ class AuthController extends Controller
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
 
-        if ($request->remember_me) {
-            $token->expires_at = $this->carbon->now()->addWeeks(1);
-        }
-
         $token->save();
 
         return response()->json([
@@ -96,7 +92,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Logout the authenticated user.
+     * Revoke the user token.
      *
      * @param  Illuminate\Http\Request $request
      * @return string
@@ -110,7 +106,7 @@ class AuthController extends Controller
 
 
     /**
-     * Return the authenticated user data.
+     * Return the user data.
      *
      * @param  Illuminate\Http\Request $request
      * @return string
