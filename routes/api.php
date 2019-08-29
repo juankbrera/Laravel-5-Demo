@@ -31,10 +31,6 @@ $router->group(['prefix' => 'products'], function ($router) {
     $router->get('/', 'ProductsController@index')->name('products');
     $router->post('/show/{id}', 'ProductsController@show')->name('products.show');
 
-    $router->group(['middleware' => 'guest'], function ($router) {
-        //
-    });
-
     $router->group(['middleware' => 'auth:api'], function ($router) {
         $router->post('store', 'ProductsController@store')->name('product.store');
         $router->put('update/{id}', 'ProductsController@update')->name('product.update');
