@@ -21,11 +21,11 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'photo' => env('APP_URL') .'/storage/uploads/images/products/'. $this->photo,
             'description' => $this->description,
-            'price' => '$'.number_format((float) $this->price, 2, '.', ','),
+            'price' => number_format((float) $this->price, 2, '.', ','),
             'stock' => $this->stock,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
-            'update_at' => $this->update_at,
+            'update_at' => $this->update_at
         ];
     }
 }

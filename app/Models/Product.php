@@ -2,12 +2,40 @@
 
 namespace App\Models;
 
+use \Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Product extends Model
 {
-    use SearchableTrait;
+    use RevisionableTrait, SearchableTrait;
+
+    /**
+     * Enable revisions from Revisionable
+     *
+     * @var
+     */
+    protected $revisionEnabled = true;
+
+    /**
+     * Enable creation revisions
+     * @var
+     */
+    protected $revisionCreationsEnabled = true;
+
+    /**
+     * Remove old revisions
+     *
+     * @var
+     */
+    protected $revisionCleanup = true;
+
+    /**
+     * Maintain a maximum of 100 changes at any point of time, while cleaning up old revisions.
+     *
+     * @var
+     */
+    protected $historyLimit = 100;
 
     /**
      * The attributes that are mass assignable.

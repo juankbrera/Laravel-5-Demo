@@ -76,7 +76,7 @@ class ProductsController extends Controller
         $product = $this->product
             ->where('is_active', true)
             ->findOrFail($id);
-            
+
         return new ProductResource($product);
     }
 
