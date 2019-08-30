@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderItemSaved' => [
             'App\Listeners\ReduceStock',
         ],
+        'App\Events\ProductLike' => [
+            'App\Listeners\UpdateLikeCount',
+        ]
     ];
 
     /**
