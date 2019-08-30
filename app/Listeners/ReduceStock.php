@@ -29,8 +29,7 @@ class ReduceStock
      */
     public function handle(OrderItemSaved $event)
     {
-        $product = $this->product->findOrFail($event->order_item->product_id);
-        $product->stock = $product->stock - $event->order_item->quantity;
-        $product->save();
+        $this->product->findOrFail($event->order_item->product_id)
+            ->decrement('stock', $event->order_item->quantity);
     }
 }
