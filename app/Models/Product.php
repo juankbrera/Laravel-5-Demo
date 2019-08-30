@@ -49,7 +49,7 @@ class Product extends Model
         'photo',
         'description',
         'price',
-        'likes',
+        'like_count',
         'stock',
         'is_active'
     ];
@@ -68,4 +68,12 @@ class Product extends Model
             'products.name' => 10,
         ]
     ];
+
+    /**
+     * Get the liks for the product.
+     */
+    public function likes()
+    {
+        return $this->hasMany('App\Models\Like');
+    }
 }
