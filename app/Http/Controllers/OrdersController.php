@@ -56,7 +56,9 @@ class OrdersController extends Controller
      */
     public function store(OrderStoreRequest $request)
     {
-        $order = $this->order_service->placeOrder($request->items);
+        $validated_data = $request->validated();
+
+        $order = $this->order_service->placeOrder($validated_data['items']);
 
         return response()->json([
             'message' => 'Order successfully placed!'], 201);
