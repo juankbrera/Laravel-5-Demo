@@ -9,11 +9,17 @@ use App\Models\Product;
 
 class ReduceStock
 {
+    /**
+     * Product model
+     *
+     * @var \App\Models\Product
+     */
     protected $product;
 
     /**
      * Create the event listener.
      *
+     * @param  \App\Models\Product  $product
      * @return void
      */
     public function __construct(Product $product)

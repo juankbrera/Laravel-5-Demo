@@ -14,11 +14,17 @@ class OrderItemSaved
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * OrderItem model
+     *
+     * @var \App\Models\OrderItem
+     */
     public $order_item;
 
     /**
      * Create a new event instance.
      *
+     * @param  \App\Models\OrderItem  $order_item
      * @return void
      */
     public function __construct($order_item)
