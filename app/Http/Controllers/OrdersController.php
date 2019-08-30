@@ -2,10 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
+    /**
+    * Order model
+    *
+    * @var \App\Models\Order
+    */
+    protected $order;
+
+    /**
+     * Order service
+     *
+     * @var \App\Services\OrderService
+     */
+    protected $order_service;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  \App\Models\Order    $orders
+     * @param  \App\Services\OrderService  $order_service
+     */
+    public function __construct(
+        Order $order,
+        OrderService $order_service
+    ) {
+        $this->order   = $order;
+        $this->order_service = $order_service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +51,14 @@ class OrdersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function store(Request $request)
     {
-        //
+        $order = $this->order_service->placeOrder($request->items);
+
+        return response()->json([
+            'message' => 'Order successfully placed!'], 201);
     }
 
     /**
