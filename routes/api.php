@@ -35,6 +35,10 @@ $router->group(['prefix' => 'products'], function ($router) {
         $router->post('store', 'ProductsController@store')->name('product.store');
         $router->put('update/{id}', 'ProductsController@update')->name('product.update');
         $router->delete('destroy/{id}', 'ProductsController@destroy')->name('product.destroy');
+
+        // Like routes
+        $router->post('{product_id}/like/store', 'LikesController@store')->name('like.store');
+        $router->delete('{product_id}/like/destroy', 'LikesController@destroy')->name('like.destroy');
     });
 });
 
