@@ -49,6 +49,7 @@ class Product extends Model
         'photo',
         'description',
         'price',
+        'likes',
         'stock',
         'is_active'
     ];
