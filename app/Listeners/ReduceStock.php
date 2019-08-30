@@ -3,9 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\OrderItemSaved;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Product;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
 class ReduceStock
 {
