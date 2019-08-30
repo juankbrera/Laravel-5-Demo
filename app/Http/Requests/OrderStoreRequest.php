@@ -24,7 +24,8 @@ class OrderStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'items.*.id'        => 'required|numeric',
+            'items'            => 'required',
+            'items.*.id'       => 'required|numeric',
             'items.*.quantity' => 'required|numeric'
         ];
     }
