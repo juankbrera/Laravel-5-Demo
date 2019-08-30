@@ -42,7 +42,7 @@ class ProductsController extends Controller
             ->where('is_active', true)
             ->search($request->search_term)
             ->orderBy((isset($request->order_by) ? $request->order_by : 'name'))
-            ->paginate(20);
+            ->paginate(10);
 
         return ProductResource::collection($products);
     }
@@ -51,31 +51,31 @@ class ProductsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Requests\ProductStoreRequest $request
-     * @return string
+     * @return App\Http\Resources\ProductResource
      */
     public function store(ProductStoreRequest $request)
     {
         $validated_data = $request->validated();
+
         $validated_data['photo'] =
             $this->uploadFile($request->photo, 'images/products');
 
         $product = $this->product->create($validated_data);
 
-        return response()->json([
-            'message' => 'Product successfully created!'], 201);
+        return new ProductResource($product);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $product_id
      * @return App\Http\Resources\ProductResource
      */
-    public function show($id)
+    public function show($product_id)
     {
         $product = $this->product
             ->where('is_active', true)
-            ->findOrFail($id);
+            ->findOrFail($product_id);
 
         return new ProductResource($product);
     }
@@ -84,12 +84,12 @@ class ProductsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  App\Http\Requests\ProductUpdateRequest $request
-     * @param  int $id
-     * @return string
+     * @param  int $product_id
+     * @return App\Http\Resources\ProductResource
      */
-    public function update(ProductUpdateRequest $request, $id)
+    public function update(ProductUpdateRequest $request, $product_id)
     {
-        $product = $this->product->findOrFail($id);
+        $product = $this->product->findOrFail($product_id);
         $validated_data = $request->validated();
 
         if (isset($validated_data['photo'])) {
@@ -100,22 +100,20 @@ class ProductsController extends Controller
         $product->fill($validated_data);
         $product->save();
 
-        return response()->json([
-            'message' => 'Product successfully updated!'], 201);
+        return new ProductResource($product);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return string
+     * @param  int $product_id
+     * @return App\Http\Resources\ProductResource
      */
-    public function destroy($id)
+    public function destroy($product_id)
     {
-        $product = $this->product->findOrFail($id);
+        $product = $this->product->findOrFail($product_id);
         $product->delete();
 
-        return response()->json([
-            'message' => 'Product successfully deleted!'], 201);
+        return new ProductResource($product);
     }
 }
