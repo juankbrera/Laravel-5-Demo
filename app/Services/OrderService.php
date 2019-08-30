@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\OrderItemSaved;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -106,6 +107,9 @@ class OrderService
                 'product_id' => $item->id
             ]);
 
+            //Trigger an event to reduce the product stock
+            event(new OrderItemSaved($order_item));
+
             $order_items[] = $order_item;
         }
 
@@ -116,16 +120,14 @@ class OrderService
     {
         $items = collect($items);
 
-        $products = $this->product
-            ->whereIn('id', $items->pluck('id'))
-            ->get();
-
         foreach ($items as $item) {
-            $product = $products
-                ->where('id', $item['id'])
-                ->first();
+            $product = $this->product
+                ->where('is_active', true)
+                ->findOrFail($item['id']);
 
             $product['requested_quantity'] = $item['quantity'];
+
+            $products[] = $product;
         }
 
         return $products;
