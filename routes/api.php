@@ -37,3 +37,10 @@ $router->group(['prefix' => 'products'], function ($router) {
         $router->delete('destroy/{id}', 'ProductsController@destroy')->name('product.destroy');
     });
 });
+
+// Order routes
+$router->group(['prefix' => 'orders'], function ($router) {
+    $router->group(['middleware' => 'auth:api'], function ($router) {
+        $router->post('store', 'OrdersController@store')->name('order.store');
+    });
+});
