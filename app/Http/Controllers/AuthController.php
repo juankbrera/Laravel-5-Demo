@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
+use App\Http\Resources\userResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Factory;
@@ -13,18 +14,21 @@ class AuthController extends Controller
 {
     /**
      * Auth factory
+     *
      * @var \Illuminate\Contracts\Auth\Factory
      */
     protected $auth;
 
     /**
      * Carbon class
+     *
      * @var Carbon\Carbon
      */
     protected $carbon;
 
     /**
      * User Model
+     *
      * @var App\Models\User
      */
     protected $user;
@@ -32,7 +36,9 @@ class AuthController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param  Carbon\Carbon                      $carbon
+     * @param  Illuminate\Contracts\Auth\Factory  $auth
+     * @param  App\Models\User                    $user
      */
     public function __construct(
         Carbon $carbon,
@@ -57,8 +63,7 @@ class AuthController extends Controller
 
         $user = $this->user->create($validated_data);
 
-        return response()->json([
-            'message' => 'Successfully created user!'], 201);
+        return new UserResource($user);
     }
 
     /**
@@ -76,9 +81,9 @@ class AuthController extends Controller
                 'message' => 'Unauthorized'], 401);
         }
 
-        $user = $request->user();
+        $user        =  $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
+        $token       = $tokenResult->token;
 
         $token->save();
 
@@ -100,8 +105,9 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
+
         return response()->json(['message' =>
-            'Successfully logged out']);
+            'Successfully logged out'], 200);
     }
 
 
@@ -113,6 +119,6 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        return new UserResource($request->user());
     }
 }
