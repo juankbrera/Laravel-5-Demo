@@ -13,9 +13,9 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-           'create product',
-           'edit product',
-           'delete product'
+           'create products',
+           'edit products',
+           'delete products'
         ];
 
         foreach ($permissions as $permission) {
