@@ -20,6 +20,8 @@ class OrderResource extends JsonResource
             'user_id'      => $this->user_id,
             'total_amount' => $this->total_amount,
             'is_placed'    => $this->is_placed,
+            'created_at'  => $this->created_at,
+            'update_at'   => $this->update_at
         ];
     }
 }
