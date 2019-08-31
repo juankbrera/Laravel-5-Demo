@@ -89,7 +89,7 @@ class ProductsController extends Controller
      */
     public function update(ProductUpdateRequest $request, $product_id)
     {
-        $product = $this->product->findOrFail($product_id);
+        $product        = $this->product->findOrFail($product_id);
         $validated_data = $request->validated();
 
         if (isset($validated_data['photo'])) {
