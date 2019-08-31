@@ -39,7 +39,7 @@ class OrderService
     protected $product_service;
 
     /**
-     * Store the items of the order
+     * Items of the order
      *
      * @var
      */
@@ -48,23 +48,29 @@ class OrderService
     /**
      * Create a new class instance.
      *
-     * @param  \App\Models\Order    $orders
-     * @param  \App\Models\OrderItem  $order_item
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Order             $orders
+     * @param  \App\Models\OrderItem         $order_item
+     * @param  \App\Models\Product           $product
      * @param  \App\Services\ProductService  $product_service
      */
     public function __construct(
-        Order $order,
-        OrderItem $order_item,
-        Product $product,
+        Order          $order,
+        OrderItem      $order_item,
+        Product        $product,
         ProductService $product_service
     ) {
         $this->order           = $order;
         $this->order_item      = $order_item;
-        $this->product = $product;
+        $this->product         = $product;
         $this->product_service = $product_service;
     }
 
+    /**
+     * Place an order
+     *
+     * @param  array $order_items
+     * @return App\Models\Order
+     */
     public function placeOrder($order_items)
     {
         $this->order_items = $this->itemsList($order_items);
@@ -84,27 +90,38 @@ class OrderService
         return $saved_order;
     }
 
+    /**
+     * Save an order
+     *
+     * @return App\Models\Order
+     */
     protected function saveOrder()
     {
         $order = $this->order->create([
             'order_number' => uniqid(),
-            'user_id' => auth('api')->user()->id,
+            'user_id'      => auth('api')->user()->id,
             'total_amount' => $this->totalAmount(),
-            'is_placed' => true
+            'is_placed'    => true
         ]);
 
         return $order;
     }
 
+    /**
+     * Save the order items
+     *
+     * @param  \App\Models\Order $order
+     * @return array
+     */
     protected function saveItems($order)
     {
         foreach ($this->order_items as $item) {
             $order_item = $this->order_item->create([
-                'quantity'   => $item->requested_quantity,
-                'unit_price' => $item->price,
+                'quantity'    => $item->requested_quantity,
+                'unit_price'  => $item->price,
                 'total_price' => $item->price * $item->requested_quantity,
-                'order_id' => $order->id,
-                'product_id' => $item->id
+                'order_id'    => $order->id,
+                'product_id'  => $item->id
             ]);
 
             //Trigger an event to reduce the product stock
@@ -116,16 +133,22 @@ class OrderService
         return $order_items;
     }
 
-    protected function itemsList($items)
+    /**
+     * Generates a list of products from the order items
+     *
+     * @param  array $order_items
+     * @return array
+     */
+    protected function itemsList($order_items)
     {
-        $items = collect($items);
+        $order_items = collect($order_items);
 
-        foreach ($items as $item) {
+        foreach ($order_items as $order_item) {
             $product = $this->product
                 ->where('is_active', true)
-                ->findOrFail($item['id']);
+                ->findOrFail($order_item['id']);
 
-            $product['requested_quantity'] = $item['quantity'];
+            $product['requested_quantity'] = $order_item['quantity'];
 
             $products[] = $product;
         }
@@ -133,6 +156,11 @@ class OrderService
         return $products;
     }
 
+    /**
+     * Define the total amount of the order
+     *
+     * @return float
+     */
     protected function totalAmount()
     {
         $total_amount = 0;
