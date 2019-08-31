@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\ProductLike;
-use App\Http\Requests\LikeRequest;
 use App\Http\Resources\LikeResource;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class LikesController extends Controller
 {
@@ -29,10 +29,9 @@ class LikesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Resources\LikeResource $request
      * @return App\Http\Resources\LikeResource
      */
-    public function store(LikeRequest $request)
+    public function store(Request $request)
     {
         $product      = $this->product->findOrFail($request->product_id);
         $product_like = $product->likes()->firstOrCreate([
@@ -50,10 +49,9 @@ class LikesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  App\Http\Requests\LikeRequest $request
      * @return App\Http\Resources\LikeResource
      */
-    public function destroy(LikeRequest $request)
+    public function destroy(Request $request)
     {
         $product      = $this->product->findOrFail($request->product_id);
         $product_like = $product->likes()
