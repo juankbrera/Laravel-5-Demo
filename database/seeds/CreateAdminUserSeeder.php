@@ -21,11 +21,12 @@ class CreateAdminUserSeeder extends Seeder
         ]);
 
         $role = Role::create([
-            'name' => 'admin'
+            'name' => 'admin',
+            'guard_name' => 'api'
         ]);
 
         $permissions = Permission::all();
-        
+
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
     }
