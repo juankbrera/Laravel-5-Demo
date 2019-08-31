@@ -5,18 +5,10 @@ namespace App\Http\Controllers;
 use App\Events\ProductLike;
 use App\Http\Requests\LikeRequest;
 use App\Http\Resources\LikeResource;
-use App\Models\Like;
 use App\Models\Product;
 
 class LikesController extends Controller
 {
-    /**
-    * Like model
-    *
-    * @var \App\Models\Like
-    */
-    public $like;
-
     /**
     * Product model
     *
@@ -27,22 +19,18 @@ class LikesController extends Controller
     /**
     * Create a new controller instance.
     *
-    * @param  \App\Models\Like         $likes
     * @param  \App\Models\Product      $products
     */
-    public function __construct(
-        Like $like,
-        Product $product
-    ) {
-        $this->like    = $like;
+    public function __construct(Product $product)
+    {
         $this->product = $product;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Resources\LikeResource $request
+     * @return App\Http\Resources\LikeResource
      */
     public function store(LikeRequest $request)
     {
@@ -52,6 +40,7 @@ class LikesController extends Controller
         ]);
 
         if ($product_like->wasRecentlyCreated) {
+            // Update the product like_count
             event(new ProductLike($product));
         }
 
@@ -61,10 +50,10 @@ class LikesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\LikeRequest $request
+     * @return App\Http\Resources\LikeResource
      */
-    public function destroy(LikeRequest $request, $id)
+    public function destroy(LikeRequest $request)
     {
         $product      = $this->product->findOrFail($request->product_id);
         $product_like = $product->likes()
@@ -73,6 +62,7 @@ class LikesController extends Controller
 
         $product_like->delete();
 
+        // Update the product like_count
         event(new ProductLike($product, false));
 
         return new LikeResource($product_like);
