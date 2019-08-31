@@ -41,7 +41,7 @@ class ProductsController extends Controller
         $products = $this->product
             ->where('is_active', true)
             ->search($request->search_term)
-            ->orderBy((isset($request->order_by) ? $request->order_by : 'name'))
+            ->orderBy((isset($request->order_by) ? $request->order_by : 'name'), 'desc')
             ->paginate(10);
 
         return ProductResource::collection($products);
@@ -59,8 +59,10 @@ class ProductsController extends Controller
 
         $validated_data = $request->validated();
 
-        $validated_data['photo'] =
-            $this->uploadFile($request->photo, 'images/products');
+        if (isset($validated_data['photo'])) {
+            $validated_data['photo'] =
+                $this->uploadFile($request->photo, 'images/products');
+        }
 
         $product = $this->product->create($validated_data);
 
@@ -100,7 +102,7 @@ class ProductsController extends Controller
             $validated_data['photo'] =
                 $this->uploadFile($request->photo, 'images/products');
         }
-
+        
         $product->fill($validated_data);
         $product->save();
 

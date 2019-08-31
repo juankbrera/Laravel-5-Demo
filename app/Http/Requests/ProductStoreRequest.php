@@ -27,7 +27,7 @@ class ProductStoreRequest extends FormRequest
             'sku'          => 'required|string|unique:products',
             'slug'         => 'required|string|unique:products',
             'name'         => 'required|string',
-            'photo'        => 'required|image|max:2048',
+            'photo'        => 'image|max:2048',
             'description'  => 'required|string',
             'price'        => 'required|numeric',
             'stock'        => 'required|numeric',
