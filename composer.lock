@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "68817abbcb22bbe6bd94feb9129d9d4e",
+    "content-hash": "edfb00d5b8a12d86bd011d004781fadc",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -763,6 +763,63 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "lanin/laravel-api-exceptions",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mlanin/laravel-api-exceptions.git",
+                "reference": "1c94f8f8ed50ae18699bef44c1218ffa1450a7f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mlanin/laravel-api-exceptions/zipball/1c94f8f8ed50ae18699bef44c1218ffa1450a7f0",
+                "reference": "1c94f8f8ed50ae18699bef44c1218ffa1450a7f0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.3",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": "~3.4",
+                "phpunit/phpunit": "~5.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lanin\\Laravel\\ApiExceptions\\ApiExceptionsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lanin\\Laravel\\ApiExceptions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxim Lanin",
+                    "email": "max@lanin.me",
+                    "homepage": "https://blog.lanin.me"
+                }
+            ],
+            "description": "All in one solution for exception for JSON REST APIs on Laravel and Lumen.",
+            "keywords": [
+                "api",
+                "exceptions",
+                "framework",
+                "json",
+                "laravel"
+            ],
+            "time": "2019-08-06T11:18:22+00:00"
         },
         {
             "name": "laravel/framework",
