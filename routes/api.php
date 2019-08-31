@@ -32,16 +32,16 @@ $router->group(['prefix' => 'v1'], function ($router) {
     // Product routes
     $router->group(['prefix' => 'products'], function ($router) {
         $router->get('/', 'ProductsController@index')->name('products');
-        $router->post('/show/{id}', 'ProductsController@show')->name('products.show');
+        $router->post('/show/{product_id}', 'ProductsController@show')->name('products.show');
 
         $router->group(['middleware' => 'auth:api'], function ($router) {
             $router->post('store', 'ProductsController@store')->name('product.store');
-            $router->put('update/{id}', 'ProductsController@update')->name('product.update');
-            $router->delete('destroy/{id}', 'ProductsController@destroy')->name('product.destroy');
+            $router->put('update/{product_id}', 'ProductsController@update')->name('product.update');
+            $router->delete('destroy/{product_id}', 'ProductsController@destroy')->name('product.destroy');
 
             // Like routes
-            $router->post('{product_id}/like/store', 'LikesController@store')->name('like.store');
-            $router->delete('{product_id}/like/destroy', 'LikesController@destroy')->name('like.destroy');
+            $router->post('{product_id}/likes/store', 'LikesController@store')->name('like.store');
+            $router->delete('{product_id}/likes/destroy', 'LikesController@destroy')->name('like.destroy');
         });
     });
 
