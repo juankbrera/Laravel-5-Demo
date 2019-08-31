@@ -20,9 +20,8 @@ class OrdersController extends Controller
      *
      * @param  \App\Services\OrderService  $order_service
      */
-    public function __construct(
-        OrderService $order_service
-    ) {
+    public function __construct(OrderService $order_service)
+    {
         $this->order_service = $order_service;
     }
 
@@ -35,7 +34,6 @@ class OrdersController extends Controller
     public function store(OrderStoreRequest $request)
     {
         $validated_data = $request->validated();
-
         $order = $this->order_service->placeOrder($validated_data['items']);
 
         return new OrderResource($order);
