@@ -55,6 +55,8 @@ class ProductsController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
+        $this->authorize('create', Product::class);
+
         $validated_data = $request->validated();
 
         $validated_data['photo'] =
@@ -89,6 +91,8 @@ class ProductsController extends Controller
      */
     public function update(ProductUpdateRequest $request, $product_id)
     {
+        $this->authorize('update', Product::class);
+
         $product        = $this->product->findOrFail($product_id);
         $validated_data = $request->validated();
 
@@ -111,6 +115,8 @@ class ProductsController extends Controller
      */
     public function destroy($product_id)
     {
+        $this->authorize('delete', Product::class);
+
         $product = $this->product->findOrFail($product_id);
         $product->delete();
 
