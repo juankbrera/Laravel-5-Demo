@@ -34,7 +34,8 @@ class OrdersController extends Controller
     public function store(OrderStoreRequest $request)
     {
         $validated_data = $request->validated();
-        $order = $this->order_service->placeOrder($validated_data['items']);
+        $order          = $this->order_service
+                            ->placeOrder($validated_data['items']);
 
         return new OrderResource($order);
     }
