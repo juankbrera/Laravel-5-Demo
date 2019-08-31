@@ -5,7 +5,7 @@ namespace App\Services;
 class ProductService
 {
     /**
-     * Check if there are enough products in stock to place an order
+     * Check if there are enough products in stock
      *
      * @param  array $order_items
      * @return boolean
