@@ -1,0 +1,555 @@
+-- MySQL dump 10.13  Distrib 8.0.16, for osx10.12 (x86_64)
+--
+-- Host: 127.0.0.1    Database: coding_challenge
+-- ------------------------------------------------------
+-- Server version	8.0.17
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+ SET NAMES utf8mb4 ;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `likes`
+--
+
+DROP TABLE IF EXISTS `likes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `likes` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `likes_product_id_user_id_unique` (`product_id`,`user_id`),
+  KEY `likes_user_id_foreign` (`user_id`),
+  CONSTRAINT `likes_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `likes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `likes`
+--
+
+LOCK TABLES `likes` WRITE;
+/*!40000 ALTER TABLE `likes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `likes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (1,'2013_04_09_062329_create_revisions_table',1),(2,'2014_10_12_000000_create_users_table',1),(3,'2014_10_12_100000_create_password_resets_table',1),(4,'2016_06_01_000001_create_oauth_auth_codes_table',1),(5,'2016_06_01_000002_create_oauth_access_tokens_table',1),(6,'2016_06_01_000003_create_oauth_refresh_tokens_table',1),(7,'2016_06_01_000004_create_oauth_clients_table',1),(8,'2016_06_01_000005_create_oauth_personal_access_clients_table',1),(9,'2019_08_28_173339_create_products_table',1),(10,'2019_08_29_104558_create_orders_table',1),(11,'2019_08_29_115329_create_order_items_table',1),(12,'2019_08_30_104337_add_like_count_to_products',1),(13,'2019_08_30_105207_create_likes_table',1),(14,'2019_08_30_230141_create_permission_tables',1);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+DROP TABLE IF EXISTS `model_has_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `model_has_permissions` (
+  `permission_id` int(10) unsigned NOT NULL,
+  `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`),
+  CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `model_has_permissions`
+--
+
+LOCK TABLES `model_has_permissions` WRITE;
+/*!40000 ALTER TABLE `model_has_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `model_has_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+DROP TABLE IF EXISTS `model_has_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `model_has_roles` (
+  `role_id` int(10) unsigned NOT NULL,
+  `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`),
+  CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `model_has_roles`
+--
+
+LOCK TABLES `model_has_roles` WRITE;
+/*!40000 ALTER TABLE `model_has_roles` DISABLE KEYS */;
+INSERT INTO `model_has_roles` VALUES (1,'App\\Models\\User',1);
+/*!40000 ALTER TABLE `model_has_roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oauth_access_tokens`
+--
+
+DROP TABLE IF EXISTS `oauth_access_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `client_id` int(10) unsigned NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_access_tokens_user_id_index` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oauth_access_tokens`
+--
+
+LOCK TABLES `oauth_access_tokens` WRITE;
+/*!40000 ALTER TABLE `oauth_access_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_access_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oauth_auth_codes`
+--
+
+DROP TABLE IF EXISTS `oauth_auth_codes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `client_id` int(10) unsigned NOT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oauth_auth_codes`
+--
+
+LOCK TABLES `oauth_auth_codes` WRITE;
+/*!40000 ALTER TABLE `oauth_auth_codes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_auth_codes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oauth_clients`
+--
+
+DROP TABLE IF EXISTS `oauth_clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `oauth_clients` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_clients_user_id_index` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oauth_clients`
+--
+
+LOCK TABLES `oauth_clients` WRITE;
+/*!40000 ALTER TABLE `oauth_clients` DISABLE KEYS */;
+INSERT INTO `oauth_clients` VALUES (1,NULL,'Coding Challenge Personal Access Client','U0bd1Y2FPLNpVuM223KuK412Fv26wScezjxrTzEQ','http://localhost',1,0,0,'2019-09-01 09:57:51','2019-09-01 09:57:51'),(2,NULL,'Coding Challenge Password Grant Client','akDqCvIFHTK5CBLYSG6g11Cz73DRdc3j2NqWKJJj','http://localhost',0,1,0,'2019-09-01 09:57:51','2019-09-01 09:57:51');
+/*!40000 ALTER TABLE `oauth_clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oauth_personal_access_clients`
+--
+
+DROP TABLE IF EXISTS `oauth_personal_access_clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `oauth_personal_access_clients` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `client_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_personal_access_clients_client_id_index` (`client_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oauth_personal_access_clients`
+--
+
+LOCK TABLES `oauth_personal_access_clients` WRITE;
+/*!40000 ALTER TABLE `oauth_personal_access_clients` DISABLE KEYS */;
+INSERT INTO `oauth_personal_access_clients` VALUES (1,1,'2019-09-01 09:57:51','2019-09-01 09:57:51');
+/*!40000 ALTER TABLE `oauth_personal_access_clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oauth_refresh_tokens`
+--
+
+DROP TABLE IF EXISTS `oauth_refresh_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oauth_refresh_tokens`
+--
+
+LOCK TABLES `oauth_refresh_tokens` WRITE;
+/*!40000 ALTER TABLE `oauth_refresh_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_refresh_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order_items`
+--
+
+DROP TABLE IF EXISTS `order_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `order_items` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `quantity` int(11) NOT NULL,
+  `unit_price` double(8,2) NOT NULL,
+  `total_price` double(8,2) NOT NULL,
+  `order_id` bigint(20) unsigned NOT NULL,
+  `product_id` bigint(20) unsigned NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_items_order_id_foreign` (`order_id`),
+  KEY `order_items_product_id_foreign` (`product_id`),
+  CONSTRAINT `order_items_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `order_items_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_items`
+--
+
+LOCK TABLES `order_items` WRITE;
+/*!40000 ALTER TABLE `order_items` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `orders` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `order_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `total_amount` double(8,2) DEFAULT NULL,
+  `is_placed` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `orders_order_number_unique` (`order_number`),
+  KEY `orders_user_id_foreign` (`user_id`),
+  CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+LOCK TABLES `password_resets` WRITE;
+/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permissions`
+--
+
+DROP TABLE IF EXISTS `permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `permissions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permissions`
+--
+
+LOCK TABLES `permissions` WRITE;
+/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+INSERT INTO `permissions` VALUES (1,'create products','api','2019-09-01 09:57:54','2019-09-01 09:57:54'),(2,'edit products','api','2019-09-01 09:57:54','2019-09-01 09:57:54'),(3,'delete products','api','2019-09-01 09:57:55','2019-09-01 09:57:55');
+/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `products` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `sku` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'default.png',
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` double(8,2) NOT NULL,
+  `like_count` bigint(20) NOT NULL DEFAULT '0',
+  `stock` int(11) NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `products_sku_unique` (`sku`),
+  UNIQUE KEY `products_slug_unique` (`slug`),
+  KEY `products_like_count_index` (`like_count`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products`
+--
+
+LOCK TABLES `products` WRITE;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (1,'d289d71d-d8f5-3450-8732-c8118a5e4162','hic-saepe-sit-ea-esse-et-eius','South Letachester','default.png','Temporibus sint odit dicta velit ex alias et modi. Facilis tempora sit rem voluptas debitis.',1.31,0,715,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(2,'7f4fd4f8-89c2-331a-ab4e-87d4e8b9c2f6','vel-iure-blanditiis-ea-tempora','Muhammadview','default.png','Qui sunt quasi deserunt esse. Quis animi necessitatibus a et.',6.76,0,391,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(3,'1c688b52-a3c1-3d22-b102-9d8f1b3986bf','facere-totam-assumenda-laudantium-doloremque-ut-non','South Mustafa','default.png','Vel nobis eos voluptas laboriosam. Enim qui praesentium molestias non. Ullam enim tempora possimus.',3.57,0,960,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(4,'2f560bcf-e463-3ab4-b7f5-4c53c016b110','voluptatem-incidunt-corrupti-enim-sint-totam-consequatur-et','North Brendonmouth','default.png','Praesentium nisi asperiores velit quos. Perferendis vel pariatur sed facere sed.',7.93,0,718,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(5,'e38a411f-229f-3ed1-ad9e-21284670c3c0','ex-exercitationem-qui-nobis-rem-culpa-commodi','Turnermouth','default.png','Quidem incidunt illo harum excepturi tempora autem odio. Nihil sit suscipit et porro aut.',6.71,0,356,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(6,'7877b546-f822-31ae-8c5c-5be9dc9ba9c6','consequatur-hic-ut-qui','Lake Devante','default.png','Expedita totam vel dolorum dolores quod libero iusto. Eum molestias autem neque velit.',8.91,0,339,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(7,'7db8d2ff-ff35-34a7-ac8b-cd3e726f707e','doloribus-natus-ea-totam-est-ut','South Lionel','default.png','At temporibus fugit voluptatibus rerum sit delectus. Qui omnis quos et sint asperiores.',1.72,0,299,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(8,'e3899255-1b5c-383d-8c7e-5470481b735d','sit-voluptate-aut-tenetur-consectetur-labore-et','North Karianeburgh','default.png','Quia perferendis voluptates sit voluptatem. Dolor distinctio sed voluptatem quis ut rem.',2.52,0,963,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(9,'623f28a3-0d96-3cb8-af24-f0b78b23f471','consequatur-ut-rerum-ut-maxime-sit-ut-quia-non','East Lydiamouth','default.png','Similique eveniet alias assumenda architecto debitis quia et. Quo ut aut sint fugit.',6.28,0,268,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(10,'1e9826dd-7b97-3cb8-951b-778bcdc0e1c0','quibusdam-quam-quaerat-iusto-itaque','West Buddyborough','default.png','Laborum nemo temporibus doloremque ut. Numquam vel ut et qui rem.',3.02,0,885,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(11,'72746d95-3f2f-349f-9693-0bd8f29bd998','quia-quia-ut-ratione-maiores-iste-voluptatum-sunt','Mooretown','default.png','Esse consequatur ipsa voluptatum rerum dolor beatae. Quam doloremque est veniam est labore et.',8.74,0,936,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(12,'8003e03b-7a5e-36aa-8e42-612cce6f225b','et-expedita-dolorum-iure','Bartolettistad','default.png','Et libero perferendis id qui. Voluptatem nisi magnam laudantium accusamus in. Quia nam optio omnis.',2.03,0,176,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(13,'aa279280-1f19-36eb-8b67-c07a62d586e5','velit-quisquam-eum-et-qui-doloribus','Port Laronshire','default.png','Velit eius asperiores aliquid dolor et. Earum repellendus optio consequatur sit id.',4.86,0,147,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(14,'5cc70540-a8df-3818-aec2-7cac5cf5171b','inventore-aperiam-omnis-qui-quia','Willshire','default.png','Eos quia distinctio ducimus sit excepturi consequatur rerum quia. Neque accusamus nihil aut minima.',2.24,0,698,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(15,'6b60e68e-240a-391d-932f-cca4c421177f','fugit-vel-omnis-qui-architecto-est-hic-dolor','Vonchester','default.png','Ab fugiat quibusdam a ratione eum. Fuga aut tempora dolorem quisquam.',4.65,0,452,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(16,'6d6b7fd7-71ec-333a-875f-adfa9b24f8d9','omnis-voluptates-aut-itaque-itaque-et-et-voluptates','Lake Joshstad','default.png','Sed sed eligendi neque. Vel doloremque qui quidem earum a. Pariatur dicta earum minus fugit qui.',5.66,0,699,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(17,'36b87829-4ea3-3ff4-a6b8-52daa0f1e886','sit-sunt-harum-veniam-dolor-aliquid-odit-corrupti','Merlfurt','default.png','Velit voluptatum doloremque dolorum est dicta. Quia repellat occaecati cupiditate inventore.',6.36,0,558,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(18,'05fcd9f4-9031-3888-bbc2-ffcf9059e0f2','qui-aut-reprehenderit-non-ex-mollitia-aliquid-nostrum-quia','New Arlene','default.png','Repellat perferendis libero est dolor. Excepturi odio ipsa et et.',3.91,0,104,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(19,'9a94e649-d304-3825-9608-c1d7b21d3126','quia-suscipit-officia-est-at-eos','Lake Tessfurt','default.png','Labore aliquid voluptate et sed velit recusandae inventore. Rem tempore qui alias.',1.12,0,768,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(20,'5971d8be-05a5-3ffb-a07a-78fdd4478e16','iste-harum-quo-amet-deleniti-qui-magni','North Daryl','default.png','Maiores voluptatibus exercitationem eum aliquid. Et quis ratione ea.',3.13,0,294,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(21,'67e6081c-2648-33f6-9287-256d3acd13a8','eligendi-dicta-necessitatibus-labore','New Braxton','default.png','Praesentium optio nisi voluptatem est non. Labore nihil ut autem quia ex. Incidunt enim culpa vel.',3.92,0,846,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(22,'684c57b0-8e10-3179-bd64-853cf34a02a9','ducimus-eum-et-accusantium-atque','Tanyabury','default.png','Aut fugiat qui ut ut non. Dolores voluptatem deleniti itaque nobis excepturi adipisci sit.',8.26,0,177,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(23,'41597f9e-479c-31a9-baae-fc102661f607','eos-molestias-aut-labore-molestiae-voluptate-ipsam-vel','Efrenmouth','default.png','Modi quasi non atque. Iste vel blanditiis suscipit dolor id tempora mollitia.',2.94,0,697,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(24,'1de85cae-af85-335f-9d7f-aa1d2d5392c3','dolorem-omnis-enim-dolores-est','Faheyhaven','default.png','Fugit explicabo nobis voluptatum ut ipsam error maxime. Aut numquam ut voluptas sit natus odio.',1.74,0,759,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(25,'016ef455-2f65-3bbc-b8f6-dce0d2511ddc','quos-ipsam-numquam-molestiae-autem-vero-explicabo-laboriosam','Delphahaven','default.png','Est harum veniam voluptatibus est voluptatem. Officia et autem ipsum ut sit quo.',4.40,0,815,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(26,'3ad437c6-50b5-37b3-b2a7-ae5ffdce1d5c','pariatur-excepturi-ea-voluptatibus-eos-at-quo','Marcelleside','default.png','Eos magnam et sed harum. Et corporis amet odit odit.',3.65,0,627,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(27,'4e7f304b-d52a-3999-8987-2349e57ddd9f','voluptas-enim-in-et-ad-numquam-quia','New Saul','default.png','Et explicabo voluptatem ut enim atque eum. Consequatur totam dolorem qui.',4.08,0,326,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(28,'ae87b2d3-de4c-3922-836a-399536e251d1','quod-aperiam-omnis-nihil-eum-cupiditate-officiis-iure','Sybletown','default.png','Enim et ut odio voluptatum. Quaerat deleniti neque et nemo neque. Consequatur unde harum nisi cum.',5.21,0,239,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(29,'a7ff4937-7f2b-39da-9cc3-318b12cef719','et-ad-repellat-nesciunt-quam-ea','South Annamae','default.png','Recusandae dicta beatae fuga assumenda. In magnam temporibus quod totam totam.',9.64,0,184,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55'),(30,'73d13a66-9c9e-3633-9ac5-1426a0346dd7','et-qui-aut-molestiae-et-qui-ipsum','Fayburgh','default.png','Vitae odio temporibus expedita ipsa. Quo repellendus soluta enim fuga.',9.91,0,884,1,NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55');
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `revisions`
+--
+
+DROP TABLE IF EXISTS `revisions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `revisions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `revisionable_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revisionable_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `key` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `old_value` text COLLATE utf8mb4_unicode_ci,
+  `new_value` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `revisions_revisionable_id_revisionable_type_index` (`revisionable_id`,`revisionable_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `revisions`
+--
+
+LOCK TABLES `revisions` WRITE;
+/*!40000 ALTER TABLE `revisions` DISABLE KEYS */;
+INSERT INTO `revisions` VALUES (1,'App\\Models\\Product',1,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(2,'App\\Models\\Product',2,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(3,'App\\Models\\Product',3,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(4,'App\\Models\\Product',4,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(5,'App\\Models\\Product',5,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(6,'App\\Models\\Product',6,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(7,'App\\Models\\Product',7,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(8,'App\\Models\\Product',8,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(9,'App\\Models\\Product',9,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(10,'App\\Models\\Product',10,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(11,'App\\Models\\Product',11,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(12,'App\\Models\\Product',12,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(13,'App\\Models\\Product',13,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(14,'App\\Models\\Product',14,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(15,'App\\Models\\Product',15,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(16,'App\\Models\\Product',16,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(17,'App\\Models\\Product',17,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(18,'App\\Models\\Product',18,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(19,'App\\Models\\Product',19,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(20,'App\\Models\\Product',20,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(21,'App\\Models\\Product',21,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(22,'App\\Models\\Product',22,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(23,'App\\Models\\Product',23,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(24,'App\\Models\\Product',24,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(25,'App\\Models\\Product',25,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(26,'App\\Models\\Product',26,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(27,'App\\Models\\Product',27,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(28,'App\\Models\\Product',28,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(29,'App\\Models\\Product',29,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55'),(30,'App\\Models\\Product',30,NULL,'created_at',NULL,'2019-09-01 03:57:55','2019-09-01 09:57:55','2019-09-01 09:57:55');
+/*!40000 ALTER TABLE `revisions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+DROP TABLE IF EXISTS `role_has_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `role_has_permissions` (
+  `permission_id` int(10) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`role_id`),
+  KEY `role_has_permissions_role_id_foreign` (`role_id`),
+  CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+LOCK TABLES `role_has_permissions` WRITE;
+/*!40000 ALTER TABLE `role_has_permissions` DISABLE KEYS */;
+INSERT INTO `role_has_permissions` VALUES (1,1),(2,1),(3,1);
+/*!40000 ALTER TABLE `role_has_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `roles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'admin','api','2019-09-01 09:57:55','2019-09-01 09:57:55');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Admin','admin@admin.com',NULL,'$2y$10$/8wBh8eoQ.mF3V4b/5Ga5.AiTPbY2oyrnbEdV5q7uVXwjg/574rrS',NULL,'2019-09-01 09:57:55','2019-09-01 09:57:55');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'coding_challenge'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-08-31 21:59:06
