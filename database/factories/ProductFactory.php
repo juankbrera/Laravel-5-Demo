@@ -11,7 +11,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'sku'          => $faker->uuid,
         'slug'         => $faker->unique()->slug,
         'name'         => $faker->city,
-        'photo'        => $faker->image('public/storage/uploads/images/products', 400, 400, 'food', false),
+        'photo'        => 'default.png',
         'description'  => $faker->text($maxNbChars = 100),
         'price'        => $faker->randomFloat(2, 1, 10),
         'stock'        => $faker->randomNumber(3),
