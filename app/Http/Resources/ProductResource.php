@@ -23,6 +23,7 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price'       => number_format((float) $this->price, 2, '.', ','),
             'stock'       => $this->stock,
+            'like_count'  => $this->like_count,
             'is_active'   => $this->is_active,
             'created_at'  => $this->created_at,
             'update_at'   => $this->update_at
