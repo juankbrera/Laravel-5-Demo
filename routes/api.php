@@ -32,7 +32,7 @@ $router->group(['prefix' => 'v1'], function ($router) {
     // Product routes
     $router->group(['prefix' => 'products'], function ($router) {
         $router->get('/', 'ProductsController@index')->name('products');
-        $router->post('/show/{product_id}', 'ProductsController@show')->name('products.show');
+        $router->get('/show/{product_id}', 'ProductsController@show')->name('products.show');
 
         $router->group(['middleware' => 'auth:api'], function ($router) {
             $router->post('store', 'ProductsController@store')->name('product.store');
