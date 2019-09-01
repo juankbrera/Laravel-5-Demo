@@ -18,7 +18,7 @@ class OrderResource extends JsonResource
             'id'           => $this->id,
             'order_number' => $this->order_number,
             'user_id'      => $this->user_id,
-            'total_amount' => $this->total_amount,
+            'total_amount' => number_format((float) $this->total_amount, 2, '.', ','),
             'is_placed'    => $this->is_placed,
             'created_at'  => $this->created_at,
             'update_at'   => $this->update_at
