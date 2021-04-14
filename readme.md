@@ -1,4 +1,4 @@
-# Coding Challenge
+# Laravel Demo
 
 An API that allows the user to browse a product catalog and place purchase orders.
 
